@@ -24,10 +24,10 @@ const TasksCard = (props) => {
     var id = card.id;
     // card.style.display = "block";
 
-    // e.target.appendChild(card);
+    //e.target.appendChild(card);
 
     const neww = tasks.filter((t) => {
-      return t.id !== card.id;
+      return t.id != card.id;
     });
 
     const task = {
@@ -51,6 +51,7 @@ const TasksCard = (props) => {
 
     setTasks([...neww, task]);
   };
+  console.log(tasks);
 
   const dragOver = (e) => {
     e.preventDefault();

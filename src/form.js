@@ -22,11 +22,9 @@ const TaskForm = (props) => {
   const onSubmit = (data, e) => {
     console.log(data);
     var days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
-
     var d = new Date(data.date);
     var day = d.getDay() + 2;
     var month = d.getMonth();
-
     const task = {
       name: data.name,
       Description: data.description,

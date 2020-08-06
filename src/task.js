@@ -11,7 +11,7 @@ const Task = (props) => {
     e.dataTransfer.setData("card_id", target.id);
     var my_obj_str = JSON.stringify(props.value);
     e.dataTransfer.setData("card_value", my_obj_str);
-
+    console.log(target.id);
     // setTimeout(() => {
     //   target.style.display = "none";
     // }, 0);
