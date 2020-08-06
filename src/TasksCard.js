@@ -5,15 +5,53 @@ import { TaskContext } from "./taskContext";
 import TaskForm, { months } from "./form";
 
 const TasksCard = (props) => {
-  const [tasks] = useContext(TaskContext);
+  const [tasks, setTasks] = useContext(TaskContext);
 
   const drop = (e) => {
     e.preventDefault();
     const card_id = e.dataTransfer.getData("card_id");
     const card = document.getElementById(card_id);
-    card.style.display = "block";
-    e.target.appendChild(card);
+    const cardd = e.dataTransfer.getData("card_value");
+    //const carddd = document.getElementById(cardd);
+    var carddd = cardd.split(",");
+
+    var name = carddd[0].split(":")[1].replace('"', "").replace('"', "");
+
+    var desc = carddd[1].split(":")[1].replace('"', "").replace('"', "");
+    var sev = carddd[2].split(":")[1].replace('"', "").replace('"', "");
+    var date = carddd[3].split(":")[1].replace('"', "").replace('"', "");
+
+    var id = card.id;
+    // card.style.display = "block";
+
+    // e.target.appendChild(card);
+
+    const neww = tasks.filter((t) => {
+      return t.id !== card.id;
+    });
+
+    const task = {
+      name: name,
+      Description: desc,
+      Severity: sev,
+      date: date,
+      type: props.id,
+      id: id,
+    };
+    // card.type = props.id;
+    // console.log(card);
+    // const taskUpdated = {
+    //   name: card.name,
+    //   Description: card.Description,
+    //   Severity: card.Severity,
+    //   date: card.date,
+    //   type: props.id,
+    //   id: card.id,
+    // };
+
+    setTasks([...neww, task]);
   };
+
   const dragOver = (e) => {
     e.preventDefault();
   };
@@ -80,9 +118,9 @@ const TasksCard = (props) => {
         <div className="col">
           {" "}
           <select
-            id="sortBy"
+            id={`new${props.id}`}
             onChange={() => {
-              setSort(document.getElementById("sortBy").value);
+              setSort(document.getElementById(`new${props.id}`).value);
             }}
           >
             <option value="" disabled selected>
@@ -95,7 +133,7 @@ const TasksCard = (props) => {
         </div>
       </div>
       <div className="card-body" key={props.id} id={props.id}>
-        {tasks.sort().map((t) => {
+        {tasks.map((t) => {
           if (props.id === t.type)
             return <Task value={t} id={t.id} key={t.id}></Task>;
         })}

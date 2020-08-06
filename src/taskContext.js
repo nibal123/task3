@@ -47,7 +47,7 @@ export const TasksProvider = (props) => {
     {
       name: "Task #2",
       Description: "task2",
-      Severity: "Normal",
+      Severity: "Urgent",
       date: "Wed Aug 05 2020",
       type: "inProgress",
       id: "2",

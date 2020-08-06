@@ -9,6 +9,9 @@ const Task = (props) => {
   const dragStart = (e) => {
     const target = e.target;
     e.dataTransfer.setData("card_id", target.id);
+    var my_obj_str = JSON.stringify(props.value);
+    e.dataTransfer.setData("card_value", my_obj_str);
+
     // setTimeout(() => {
     //   target.style.display = "none";
     // }, 0);
