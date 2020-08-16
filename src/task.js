@@ -40,11 +40,7 @@ const Task = (props, archivedTask) => {
     setDragged(false);
   };
 
-  //const [modal, setModal] = useState(<></>);
   const edit = () => {
-    // console.log("taskkk", props.value);
-    // setModal(<Modal>{props}</Modal>);
-    // console.log(modal);
     console.log(props.value);
     setEditId(props.value);
     setModalShow(true);
@@ -69,8 +65,6 @@ const Task = (props, archivedTask) => {
         // The document probably doesn't exist.
         console.error("Error updating document: ", error);
       });
-
-    // localStorage.setItem("tasks", JSON.stringify([...neww]));
   };
   const deleteArchived = () => {
     const neww = archived.filter((t) => {
@@ -95,6 +89,7 @@ const Task = (props, archivedTask) => {
 
     // localStorage.setItem("archived", JSON.stringify([...neww]));
   };
+
   const archive = () => {
     const neww = tasks.filter((t) => {
       return t.id !== props.id;
@@ -129,7 +124,6 @@ const Task = (props, archivedTask) => {
     });
     setArchived([...neww]);
     setArchived([...archived, props.value]);
-    // localStorage.setItem("tasks", JSON.stringify([...neww]));
     var userTasks = firebase.db
       .collection("users")
       .doc(`${firebase.getCurrentUserId()}`);
@@ -146,10 +140,7 @@ const Task = (props, archivedTask) => {
         console.error("Error updating document: ", error);
       });
   };
-  useEffect(() => {
-    inputRef.current.focus();
-    // console.log(props.id + "kk");
-  }, []);
+
   return (
     <div>
       <Card
@@ -259,32 +250,6 @@ const Task = (props, archivedTask) => {
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          {/* <div
-            className="modal fade bd-edit-modal-sm"
-            tabIndex="-1"
-            role="dialog"
-            aria-labelledby="mySmallModalLabel"
-            aria-hidden="true"
-          >
-            <div className="modal-dialog modal-sm">
-              <div className="modal-content">
-                <h2>
-                  <b>Edit Task</b>
-                </h2>
-
-                // <TaskForm
-                //   id={`form${props.id}`}
-                //   value={{
-                //     type: props.id,
-                //     severity: props.value.Severity,
-                //     function: "edit",
-                //     task: props.value,
-                //   }}
-                //   key={`form${props.id}`}
-                // ></TaskForm>
-              </div>
-            </div>
-          </div> */}
           <div onClick={handleshowModal}>
             <Badge
               className="badge"

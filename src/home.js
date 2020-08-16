@@ -2,8 +2,6 @@ import React, { useEffect, useState, useContext } from "react";
 import TasksCard from "./TasksCard";
 import { TaskContext } from "./taskContext";
 import { useHistory } from "react-router-dom";
-import { Tabs, Tab } from "react-bootstrap";
-import Archived from "./archived";
 import Nav from "./nav";
 import firebase from "./firebase";
 import Loader from "./loader";
@@ -29,15 +27,8 @@ const Home = (props) => {
 
   useEffect(
     () => {
-      // console.log("user", firebase.getCurrentUserId());
-      // console.log(firebase.database());
       setName(firebase.getCurrentUsername());
-      // console.log(name);
-      // console.log(
-      //   firebase.getUserTasks().then((data) => {
-      //     console.log(data);
-      //   })
-      // );
+
       var docRef = firebase.db
         .collection("users")
         .doc(`${firebase.getCurrentUserId()}`);

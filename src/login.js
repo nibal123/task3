@@ -26,7 +26,6 @@ const Login = (props) => {
           .get()
           .then(function (doc) {
             if (doc.exists) {
-              //   console.log("Document data:", doc.data().tasks);
               setTasks(doc.data().tasks);
               setArchived(doc.data().archived);
             } else {

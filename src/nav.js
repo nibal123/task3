@@ -31,8 +31,6 @@ const Nav = () => {
     history.push("./archived");
   };
   const onSubmit = (data) => {
-    //  console.log(data);
-
     if (data.password == userPassword) {
       handleClose();
       if (!pass) {
@@ -43,21 +41,19 @@ const Nav = () => {
             displayName: data.name,
           })
           .then(function () {
-            // Update successful.
             console.log(firebase.auth.currentUser);
             setShowToast({ show: true, message: "Updated Successfully" });
           })
           .catch(function (error) {
-            // An error happened.
             console.log("error");
           });
       } else if (data.password == userPassword && pass) {
         var user = firebase.auth.currentUser;
         var newPassword = data.passwordNew;
-
+        setUserPassword(data.passwordNew);
         user
           .updateProfile({
-            name: data.namel,
+            displayName: data.name,
           })
           .then(function () {
             // Update successful.
@@ -71,7 +67,6 @@ const Nav = () => {
           .updatePassword(newPassword)
           .then(function () {
             setShowToast({ show: true, message: "Updated Successfully" });
-            setUserPassword(data.passwordNew);
           })
           .catch(function (error) {
             console.log("error");
@@ -221,20 +216,6 @@ const Nav = () => {
             </form>
           </div>
         </Modal.Body>
-        {/* <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => {
-              onSubmit();
-              handleClose();
-            }}
-          >
-            Save Changes
-          </Button>
-        </Modal.Footer> */}
       </Modal>
     </div>
   );

@@ -73,6 +73,7 @@ const TasksCard = (props) => {
       [target]: [...tasks],
     };
   };
+
   const dragOver = (e) => {
     e.preventDefault();
     setIsDropped(true);
@@ -131,12 +132,8 @@ const TasksCard = (props) => {
     }
   }
 
-  //   var e = document.getElementById("sortBy");
-  //   var strUser = e.options[e.selectedIndex].value;
-  //   console.log(strUser);
   const [dropdownOpen, setOpen] = useState(false);
 
-  const toggle = () => setOpen(!dropdownOpen);
   return (
     <Card
       className={!isDropped ? "card-main" : "card-yellow"}
@@ -182,8 +179,6 @@ const TasksCard = (props) => {
           <Button
             variant="outline-secondary"
             className="add"
-            // data-toggle="modal"
-            // data-target=".bd-example-modal-sm"
             onClick={() => {
               setModalShowAdd(true);
               setTaskType(props.id);

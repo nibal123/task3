@@ -28,15 +28,6 @@ const Archived = () => {
 
   useEffect(
     () => {
-      // console.log("user", firebase.getCurrentUserId());
-      // console.log(firebase.database());
-
-      // console.log(name);
-      // console.log(
-      //   firebase.getUserTasks().then((data) => {
-      //     console.log(data);
-      //   })
-      // );
       var docRef = firebase.db
         .collection("users")
         .doc(`${firebase.getCurrentUserId()}`);
@@ -44,7 +35,6 @@ const Archived = () => {
         .get()
         .then(function (doc) {
           if (doc.exists) {
-            // console.log("Document data:", doc.data().tasks);
             setTasks(doc.data().tasks);
             setArchived(doc.data().archived);
           } else {
@@ -58,17 +48,6 @@ const Archived = () => {
     [tasks],
     [archived]
   );
-
-  // var docRef = firebase.db
-  //   .collection("users")
-  //   .doc(`${firebase.getCurrentUserId()}`);
-
-  // docRef.get().then(function (doc) {
-  //   if (doc.exists) {
-  //     //   console.log("Document data:", doc.data().tasks);
-  //     if (doc.data.archived) console.log(doc.data.archived);
-  //   }
-  // });
 
   return (
     <>
