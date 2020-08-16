@@ -5,6 +5,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url("background.jpg");
+  /* background-color:lightblue; */
+  background-size: 100%;
+  background-position: center;
+  background-repeat: initial;
+  background-size: cover;
+  height: 100%;
+}
+body-task {
+  background-color: white;
+  height: 1000px;
 }
 
 code {
@@ -13,17 +24,61 @@ code {
 }
 
 .nav {
-  background-color: #f7f5ed;
-  padding: 1%;
+  /* background-color: rgba(217, 217, 215, 0.8); */
+
   margin-bottom: 1%;
 }
+.form-toast {
+  margin-left: 70p;
+}
+.static {
+  position: static;
+}
+.absolute {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-right: 4%;
+}
+.relative {
+  position: relative;
+}
+.toast {
+  background-color: lightgray;
+  min-width: 230px;
+}
 
+.load {
+  height: 100%;
+  margin: 20%;
+  margin-left: 50%;
+}
+.add {
+  opacity: 0.2;
+  border: none;
+  background: none;
+  width: 70%;
+}
+
+.add:hover {
+  color: gray;
+  outline: gray;
+  border: 1px solid gray;
+  opacity: 1;
+  background-color: white;
+}
 h6 {
   font-size: 13px;
 }
 
 .col-4 {
   display: block;
+}
+.pic {
+  margin-right: 70%;
+}
+.logout {
+  margin-left: 70%;
 }
 .row {
   margin-left: 0;
@@ -47,6 +102,12 @@ select {
   width: fit-content;
   justify-content: center;
   padding: auto;
+  margin-right: 1%;
+  height: fit-content;
+  margin-top: 3%;
+}
+.Tabs {
+  background: none;
 }
 .task-card {
   padding: 2%;
@@ -54,7 +115,15 @@ select {
   padding-right: 4%;
   cursor: pointer;
 }
-
+.archived {
+  width: 50%;
+  margin: auto;
+  margin-top: 0.6%;
+}
+.dropdown-button {
+  margin: 0;
+  width: inherit;
+}
 .add-button {
   border-radius: 50%;
   margin: 1%;
@@ -69,7 +138,49 @@ select {
 .card-add {
   padding: 0px;
 }
+.col-3 {
+  /* background-color: rgba(217, 217, 215, 0.8); */
+  border-radius: 10%;
+  margin: 0.2%;
+}
+.taskk {
+  width: inherit;
+  margin: 0;
+  height: 100%;
+  color: white;
+}
 
+.col-1 {
+  justify-content: center;
+  padding-top: 1%;
+  font-size: 110%;
+}
+.card-yellow {
+  background-color: #fffd9c;
+}
+.login {
+  background-color: rgba(252, 248, 232, 0.5);
+  margin: 5%;
+  height: 30rem;
+  justify-content: center;
+}
+.login h1 {
+  color: white;
+}
+.login .row {
+  justify-content: center;
+  text-align: center;
+}
+.login .row .col-6 {
+  justify-content: center;
+  margin-top: 8%;
+}
+input {
+  margin: 2%;
+}
+.fullPage {
+  height: 100%;
+}
 .btn-circle {
   margin-left: 10px;
   width: 25px;
@@ -97,6 +208,10 @@ select {
 .card-main {
   margin-left: 40px;
   min-height: 400px;
+  margin-bottom: 10%;
+}
+.modal-backdrop {
+  background: none;
 }
 .form {
   display: block;
@@ -108,4 +223,7 @@ label {
 }
 button {
   margin: 10px 5px 5px 5px;
+}
+select {
+  border-radius: 5px;
 }

@@ -1,61 +1,85 @@
-import React, { useContext, useState } from "react";
-import { Card } from "react-bootstrap";
+import React, { useContext, useState, useEffect } from "react";
+import { Card, Button, Modal } from "react-bootstrap";
 import Task from "./task";
 import { TaskContext } from "./taskContext";
 import TaskForm, { months } from "./form";
-
+import firebase from "./firebase";
 const TasksCard = (props) => {
-  const [tasks, setTasks] = useContext(TaskContext);
-
+  const {
+    value,
+    value2,
+    value3,
+    value4,
+    value5,
+    value6,
+    value7,
+    value8,
+  } = useContext(TaskContext);
+  const [tasks, setTasks] = value;
+  const [taskType, setTaskType] = value5;
+  const [modalShowAdd, setModalShowAdd] = value8;
+  const [isDropped, setIsDropped] = useState(false);
+  useEffect(() => {
+    // Update the document title using the browser API
+    setTimeout(() => {
+      setIsDropped(false);
+    }, 50);
+  }, [isDropped]);
   const drop = (e) => {
+    var x = document.getElementById(props.id);
+    x.setAttribute("className", "card-main");
     e.preventDefault();
     const card_id = e.dataTransfer.getData("card_id");
-    const card = document.getElementById(card_id);
-    const cardd = e.dataTransfer.getData("card_value");
-    //const carddd = document.getElementById(cardd);
-    var carddd = cardd.split(",");
+    setIsDropped(false);
 
-    var name = carddd[0].split(":")[1].replace('"', "").replace('"', "");
+    const task = JSON.parse(e.dataTransfer.getData("card_value"));
 
-    var desc = carddd[1].split(":")[1].replace('"', "").replace('"', "");
-    var sev = carddd[2].split(":")[1].replace('"', "").replace('"', "");
-    var date = carddd[3].split(":")[1].replace('"', "").replace('"', "");
+    task.type = props.id;
+    var dropped = localStorage.getItem("dropped");
+    var indexx;
+    tasks.map((t, index) => {
+      if (t.id == dropped) {
+        indexx = index;
+      }
+    });
+    console.log(indexx);
 
-    var id = card.id;
-    // card.style.display = "block";
-
-    //e.target.appendChild(card);
-
-    const neww = tasks.filter((t) => {
-      return t.id != card.id;
+    var newTasks = tasks.filter((t) => {
+      return t.id !== task.id;
     });
 
-    const task = {
-      name: name,
-      Description: desc,
-      Severity: sev,
-      date: date,
-      type: props.id,
-      id: id,
-    };
-    // card.type = props.id;
-    // console.log(card);
-    // const taskUpdated = {
-    //   name: card.name,
-    //   Description: card.Description,
-    //   Severity: card.Severity,
-    //   date: card.date,
-    //   type: props.id,
-    //   id: card.id,
-    // };
+    newTasks.splice(indexx, 0, task);
 
-    setTasks([...neww, task]);
+    setTasks(newTasks);
+    //  localStorage.setItem("tasks", JSON.stringify([...newTasks]));
+    var userTasks = firebase.db
+      .collection("users")
+      .doc(`${firebase.getCurrentUserId()}`);
+
+    return userTasks
+      .update({
+        tasks: [...newTasks],
+      })
+      .then(function () {
+        console.log("Document successfully updated!");
+      })
+      .catch(function (error) {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+      });
   };
-  console.log(tasks);
-
+  const updateTasks = (target, tasks) => {
+    const updatedTasks = {
+      [target]: [...tasks],
+    };
+  };
   const dragOver = (e) => {
     e.preventDefault();
+    setIsDropped(true);
+
+    //const draggable = document.querySelector("task-card");
   };
+
   const severity = {
     Urgent: -1,
     Important: 0,
@@ -67,7 +91,9 @@ const TasksCard = (props) => {
   function compare(a, b) {
     switch (sortType) {
       case "alphabet": {
-        if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+        if (a.name.toLowerCase() > b.name.toLowerCase()) {
+          return 1;
+        }
 
         if (b.name.toLowerCase() > a.name.toLowerCase()) return -1;
         return 0;
@@ -97,7 +123,9 @@ const TasksCard = (props) => {
         } else if (parseInt(date2[2]) > parseInt(date1[2])) {
           return -1;
         }
+        break;
       }
+
       default:
         return 0;
     }
@@ -106,13 +134,20 @@ const TasksCard = (props) => {
   //   var e = document.getElementById("sortBy");
   //   var strUser = e.options[e.selectedIndex].value;
   //   console.log(strUser);
+  const [dropdownOpen, setOpen] = useState(false);
+
+  const toggle = () => setOpen(!dropdownOpen);
   return (
     <Card
-      className="card-main"
+      className={!isDropped ? "card-main" : "card-yellow"}
+      onPointerUp={() => {
+        setIsDropped(true);
+      }}
       border="primary"
       id={props.id}
       onDrop={drop}
       onDragOver={dragOver}
+      droppable="true"
     >
       <div className="card-header row">
         <div className="col-5">{props.value.name}</div>
@@ -120,6 +155,7 @@ const TasksCard = (props) => {
           {" "}
           <select
             id={`new${props.id}`}
+            className="add"
             onChange={() => {
               setSort(document.getElementById(`new${props.id}`).value);
             }}
@@ -136,47 +172,45 @@ const TasksCard = (props) => {
       <div className="card-body" key={props.id} id={props.id}>
         {tasks.map((t) => {
           if (props.id === t.type)
-            return <Task value={t} id={t.id} key={t.id}></Task>;
+            return (
+              <Task value={t} id={t.id} key={t.id} archivedTask={false}></Task>
+            );
+          return "";
         })}
-        {props.id === "toDo" ? (
-          <Card className="card-add" id={props.id}>
-            <span>
-              {" "}
-              Add Task
-              <button
-                type="button"
-                variant="primary"
-                data-toggle="modal"
-                data-target=".bd-example-modal-sm"
-                type="button"
-                className="btn btn-default btn-circle"
-              >
-                +
-              </button>
-              <div
-                className="modal fade bd-example-modal-sm"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="mySmallModalLabel"
-                aria-hidden="true"
-              >
-                <div className="modal-dialog modal-sm">
-                  <div className="modal-content">
-                    <h2>
-                      <b>Add Task</b>
-                    </h2>
-                    <TaskForm
-                      id={props.id}
-                      value={{ type: props.id }}
-                    ></TaskForm>
-                  </div>
-                </div>
-              </div>
-            </span>
-          </Card>
-        ) : (
-          ""
-        )}
+
+        <div>
+          <Button
+            variant="outline-secondary"
+            className="add"
+            // data-toggle="modal"
+            // data-target=".bd-example-modal-sm"
+            onClick={() => {
+              setModalShowAdd(true);
+              setTaskType(props.id);
+            }}
+          >
+            ADD TASK +
+          </Button>
+
+          <Modal
+            show={modalShowAdd}
+            onHide={() => {
+              setModalShowAdd(false);
+            }}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>
+                <h2>Add Task</h2>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <TaskForm
+                id={props.id}
+                value={{ type: props.id, function: "add" }}
+              ></TaskForm>
+            </Modal.Body>
+          </Modal>
+        </div>
       </div>
     </Card>
   );

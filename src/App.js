@@ -1,34 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-import TasksCard from "./TasksCard";
 import { TasksProvider } from "./taskContext";
-
-import Nav from "./nav";
-
+import Login from "./login";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./home";
+import SignUp from "./signup";
+import firebase from "./firebase";
+import Loader from "./loader";
+import Archived from "./archived";
 function App() {
-  return (
+  const [firebaseInitialized, setFirebaseInitialized] = useState(false);
+  useEffect(() => {
+    firebase.isInitialized().then((val) => {
+      setTimeout(() => {
+        setFirebaseInitialized(val);
+      }, 100);
+    });
+  });
+
+  return firebaseInitialized !== false ? (
     <TasksProvider>
-      <div className="App">
-        <Nav></Nav>
-        <div className="row">
-          <div className="col-4">
-            {" "}
-            <TasksCard value={{ name: "To Do" }} id="toDo"></TasksCard>
-          </div>
-          <div className="col-4">
-            {" "}
-            <TasksCard
-              value={{ name: "In Progress" }}
-              id="inProgress"
-            ></TasksCard>
-          </div>
-          <div className="col-4">
-            {" "}
-            <TasksCard value={{ name: "Done" }} id="done"></TasksCard>
-          </div>
-        </div>
-      </div>
+      <Router>
+        <Switch>
+          <Route path="/signup" exact component={SignUp}></Route>
+          <Route path="/login" exact component={Login}></Route>
+          <Route path="/" exact component={Login}></Route>
+          <Route path="/home" component={Home}></Route>
+          <Route path="/archived" component={Archived}></Route>
+        </Switch>
+      </Router>
     </TasksProvider>
+  ) : (
+    <div id="loader" className="load">
+      <Loader></Loader>
+    </div>
   );
 }
 
