@@ -25,7 +25,8 @@ function App() {
           <Route path="/signup" exact component={SignUp}></Route>
           <Route path="/login" exact component={Login}></Route>
           <Route path="/" exact component={Login}></Route>
-          <Route path="/home" component={Home}></Route>
+          <Route path="/todo" exact component={Login}></Route>
+          <Route path="/todo/home" component={Home}></Route>
           <Route path="/archived" component={Archived}></Route>
         </Switch>
       </Router>
